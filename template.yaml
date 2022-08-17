@@ -1,0 +1,263 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Serverless Specification template for reference architecture on supply chain tracking.
+
+Parameters:
+  AppName:
+    Description: Name of Application
+    Type: String
+    Default: trackntrace-using-qldb
+
+Resources:
+  # If shared layer and file already created then comment out below and use ARN for existing layer 
+  SharedLayer:
+    Type: 'AWS::Serverless::LayerVersion'
+    Properties:
+      LayerName: 'shared-lib-layer'
+      Description: 'Shared library dependencies'
+      ContentUri: lib/
+  SharedFiles:
+    Type: 'AWS::Serverless::LayerVersion'
+    Properties:
+      LayerName: 'shared-file-layer'
+      Description: 'Shared code files'
+      ContentUri: sharefile/
+  DescribeLedgerFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: 'describeLedgerFunction'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.7
+      CodeUri: describeLedger/
+      Description: 'Lambda Function for Describe Ledger Functionality'
+      MemorySize: 128
+      Timeout: 300
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonQLDBFullAccess
+        - CloudWatchFullAccess
+      Layers:
+        - !Ref SharedLayer
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /api/ledger/describe
+            Method: POST
+            RestApiId: !Ref HttpApi
+  CreateLedgerFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: 'createLedgerFunction'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.7
+      CodeUri: createLedger/
+      Description: 'Lambda Function for create Ledger Functionality'
+      MemorySize: 128
+      Timeout: 300
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonQLDBFullAccess
+        - CloudWatchFullAccess
+      Layers:
+        - !Ref SharedLayer
+        - !Ref SharedFiles
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /api/ledger/create
+            Method: POST
+            RestApiId: !Ref HttpApi
+  RegisterMemberFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: 'registerMemberFunction'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.7
+      CodeUri: registerMember/
+      Description: 'Lambda Function for creating new members'
+      MemorySize: 128
+      Timeout: 300
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonQLDBFullAccess
+        - CloudWatchFullAccess
+      Layers:
+        - !Ref SharedLayer
+        - !Ref SharedFiles
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /api/member/register
+            Method: POST
+            RestApiId: !Ref HttpApi
+  LoginMemberFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: 'loginMemberFunction'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.7
+      CodeUri: loginMember/
+      Description: 'Lambda Function for login existing members'
+      MemorySize: 128
+      Timeout: 300
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonQLDBFullAccess
+        - CloudWatchFullAccess
+      Layers:
+        - !Ref SharedLayer
+        - !Ref SharedFiles
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /api/member/login
+            Method: POST
+            RestApiId: !Ref HttpApi
+  CreateItemFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: 'createItemFunction'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.7
+      CodeUri: createItem/
+      Description: 'Lambda Function for creating dummy items in QLDB'
+      MemorySize: 128
+      Timeout: 300
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonQLDBFullAccess
+        - CloudWatchFullAccess
+      Layers:
+        - !Ref SharedLayer
+        - !Ref SharedFiles
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /api/product/create
+            Method: POST
+            RestApiId: !Ref HttpApi
+  UpdateItemFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: 'updateItemFunction'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.7
+      CodeUri: updateItem/
+      Description: 'Lambda Function for updating Item records in QLDB'
+      MemorySize: 128
+      Timeout: 300
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonQLDBFullAccess
+        - CloudWatchFullAccess
+      Layers:
+        - !Ref SharedLayer
+        - !Ref SharedFiles
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /api/product/update
+            Method: POST
+            RestApiId: !Ref HttpApi
+  GetItemFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: 'getItemFunction'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.7
+      CodeUri: getItem/
+      Description: 'Lambda Function for retrieving Item records from QLDB'
+      MemorySize: 128
+      Timeout: 300
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonQLDBFullAccess
+        - CloudWatchFullAccess
+      Layers:
+        - !Ref SharedLayer
+        - !Ref SharedFiles
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /api/product/get
+            Method: POST
+            RestApiId: !Ref HttpApi
+  ValidationFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: 'validationFunction'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.7
+      CodeUri: validate/
+      Description: 'Lambda Function for validating ledger records on QLDB'
+      MemorySize: 128
+      Timeout: 300
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonQLDBFullAccess
+        - CloudWatchFullAccess
+      Layers:
+        - !Ref SharedLayer
+        - !Ref SharedFiles
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /api/validate
+            Method: POST
+            RestApiId: !Ref HttpApi
+  IOTSensorFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: 'sensorUpdateFunction'
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.7
+      CodeUri: sensorUpdate/
+      Description: 'Lambda Function to process IoT events from package sensor'
+      MemorySize: 128
+      Timeout: 300
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonQLDBFullAccess
+        - CloudWatchFullAccess
+      Layers:
+        - !Ref SharedLayer
+        - !Ref SharedFiles
+      Events:
+        IoTThing:
+          Type: IoTRule
+          # replace ledger name below if using something different than track-n-trace
+          Properties:
+            Sql: "SELECT temperature as temperature, package as package, batch as batch, 'track-n-trace' as ledgername FROM 'packagesensortopic'"
+
+  # Define the IoT thing
+  IotThing:
+    Type: 'AWS::IoT::Thing'
+    Properties:
+      ThingName: "packagesensor"
+
+  # API Gateway HTTP API
+  HttpApi:
+    Type: 'AWS::Serverless::Api'
+    Properties:
+      StageName: dev
+      Name: !Ref AppName
+      Description: An Amazon API Gateway HTTP API and an AWS Lambda function.
+      Cors:
+        AllowOrigin:
+          - '*'
+        AllowMethods:
+          - POST
+
+Outputs:
+  HttpApiEndpoint:
+    # Description: The default endpoint for the HTTP API.
+    Value: !Sub https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com
+      
