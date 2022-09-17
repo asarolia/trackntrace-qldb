@@ -1,2 +1,0 @@
-six
-amazon.ion>=0.5
