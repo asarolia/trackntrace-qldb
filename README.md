@@ -22,3 +22,32 @@ The following figure depicts the reference architecture of solution.
 
 ![Architecture](arch_image.png)
 
+##Deployment
+Below steps can be completed on your local machine or you can take advantage of AWS Cloud9 which is a cloud based integrated development environment:
+
+1.	To deploy the solution in your local environment, clone the source code from the git repo here. 
+2.	Change the working directory to the cloned repo directory path.
+3.	Install & configure AWS CLI, AWS SAM CLI for your environment. Ignore this step if using AWS Cloud9 which comes pre-installed with these tools.
+4.	Project root directory has a /lib folder, this folder is used to create shared library layer for solution. Install required dependency modules from the “requirements.txt” using following command-
+
+$ pip install -r requirements.txt -t ./lib/python 
+
+5.	Use AWS Serverless Application Model (AWS SAM) to deploy the solution in your AWS account – 
+
+#Step 1 – Validate the template file before deployment
+$ sam validate
+
+#Step 2 - Build the application
+$ sam build
+
+#Step 3 - Deploy the application
+$ sam deploy –-guided
+
+##Clean up
+
+To avoid incurring future charges, delete the resources by deleting the stack and manually delete the AWS IoT thing. Alternatively, you can delete the AWS CloudFormation stack by running the following AWS SAM command:
+
+$ sam delete
+
+
+
