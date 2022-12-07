@@ -74,7 +74,9 @@ def lambda_handler(event, context):
         ledger_name = event.get('ledgername')
         email = event.get('email')
         username = event.get('username')
-        password = event.get('password').encode('ascii')
+        # pick base64 encoded value from payload
+        password = event.get('password')
+        # password = event.get('password').encode('ascii')
         usertype = event.get('usertype')
         name = event.get('name')
         address = event.get('address')
@@ -89,7 +91,9 @@ def lambda_handler(event, context):
         ledger_name = body_dict_payload.get('ledgername')
         email = body_dict_payload.get('email')
         username = body_dict_payload.get('username')
-        password = body_dict_payload.get('password').encode('ascii')
+        # pick base 64 encoded pwd from payload 
+        password = body_dict_payload.get('password')
+        # password = body_dict_payload.get('password').encode('ascii')
         usertype = body_dict_payload.get('usertype')
         name = body_dict_payload.get('name')
         address = body_dict_payload.get('address')

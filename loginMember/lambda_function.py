@@ -42,7 +42,7 @@ def select_document(driver, table_name, username , password):
         db_usertype = doc['Usertype']
     
     # validate credentials 
-    if db_username == username and db_password == password:
+    if db_username == username and db_password == password.decode('ascii'):
         login_status = True
         user_type = db_usertype
         document_id = db_memeberid

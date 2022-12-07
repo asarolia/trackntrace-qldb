@@ -23,9 +23,9 @@ The following figure depicts the reference architecture of solution.
 ![Architecture](arch_image.png)
 
 ## Deployment
-Below steps can be completed on your local machine or you can take advantage of AWS Cloud9 which is a cloud based integrated development environment:
+Complete the following steps to create the AWS resources mentioned in the architecture. You can take advantage of AWS Cloud9 which is a cloud based integrated development environment to complete below steps or you can run below steps locally on windows or mac workstation/laptop:
 
-1.	To deploy the solution in your local environment, clone the source code from the git repo here. 
+1.	Clone the source code from the repo. 
 2.	Change the working directory to the cloned repo directory path.
 3.	Install & configure AWS CLI, AWS SAM CLI for your environment. Ignore this step if using AWS Cloud9 which comes pre-installed with these tools.
 4.	Project root directory has a /lib folder, this folder is used to create shared library layer for solution. Install required dependency modules from the “requirements.txt” using following command-

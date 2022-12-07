@@ -40,14 +40,12 @@ def lambda_handler(event, context):
     return_msg = ''
     
     if event.get('body') is None:
-        # pick from lambda test payload
-        #print("lambda test flow")
+        # Lambda flow
         ledger_name = event.get('ledgername')
         #print(ledger_name)
     else:
+        # API Gateway flow
         API_flow = True
-        # pick from API request
-        # print("API integration flow")
         body_dict_payload = json.loads(event.get('body'))
         ledger_name = body_dict_payload.get('ledgername')
         # print(ledger_name)
