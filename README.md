@@ -19,7 +19,7 @@ The different personas have overlapping duties:
 - Consumer, Retailer/Hospital – Verify whether the pharmaceutical drug being supplied or consumed comes from a genuine manufacturing source
 
 The following figure depicts the reference architecture of solution. 
-![Architecture](arch_image_cognito.png)
+![Architecture](https://raw.githubusercontent.com/asarolia/trackntrace-qldb/blob/main/arch_image_cognito.png)
 
 ## Deployment
 Complete the following steps to create the AWS resources mentioned in the architecture. You can take advantage of AWS Cloud9 which is a cloud based integrated development environment to complete below steps or you can run below steps locally on windows or mac workstation/laptop:
