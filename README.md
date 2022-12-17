@@ -19,7 +19,6 @@ The different personas have overlapping duties:
 - Consumer, Retailer/Hospital – Verify whether the pharmaceutical drug being supplied or consumed comes from a genuine manufacturing source
 
 The following figure depicts the reference architecture of solution. 
-test
 ![Architecture](arch_image_cognito.png)
 
 ## Deployment
