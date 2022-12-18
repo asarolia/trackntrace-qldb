@@ -156,7 +156,7 @@ def lambda_handler(event, context):
         #proceed ahead
         
         """
-        Create registrations, vehicles, owners, and licenses tables.
+        Create required tables.
         """
         print('Creating tables on ledger...')
         try:

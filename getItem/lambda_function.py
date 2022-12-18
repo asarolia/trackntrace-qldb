@@ -327,14 +327,14 @@ def lambda_handler(event, context):
         
         # TODO implement
         return {
-            "isBase64Encoded": False,
+            "isBase64Encoded": "false",
             "statusCode": 200,
-            "body": {"Data": str(return_message), "QualityCompliance": quality_message, "Coldchain": coldchain_message}
+            "body": json.dumps({"Data": str(return_message), "QualityCompliance": quality_message, "Coldchain": coldchain_message})
         }
     else:
         # TODO implement
         return {
+            "isBase64Encoded": "false",
             "statusCode": 503,
-            "isBase64Encoded": False,
             "body": return_message
         }
