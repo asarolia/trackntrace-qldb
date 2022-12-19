@@ -20,7 +20,7 @@ The different personas have overlapping duties:
 
 The following figure depicts the reference architecture of solution. 
 
-![Architecture](archimagecognito.PNG)
+![Architecture](archimagecognito.png)
 
 ## Deployment
 Complete the following steps to create the AWS resources mentioned in the architecture. You can take advantage of AWS Cloud9 which is a cloud based integrated development environment to complete below steps or you can run below steps locally on windows or mac workstation/laptop:
